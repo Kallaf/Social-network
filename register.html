@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Social Network</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="js/bootstrap.min.js"></script>
+	<script src="jquery-3.3.1.min.js"></script>
+</head>
+<body>
+
+    <div class="container-fluid">
+
+        <form>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="inputFirstName">First name</label>
+                  <input type="text" class="form-control" id="inputFirstName" placeholder="First name" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputLastName">Last name</label>
+                  <input type="text" class="form-control" id="inputLastName" placeholder="Last name" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputNickName">Nickname</label>
+                  <input type="text" class="form-control" id="inputNickName" placeholder="Nickname">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="inputEmail4">Email</label>
+                  <input type="email" class="form-control" id="inputEmail4" placeholder="Email" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputHometown">Hometown</label>
+                    <input type="text" class="form-control" id="inputHometown" placeholder="1234 Main St">
+                </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inputPassword">Password</label>
+              <input type="password" class="form-control" id="inputPassword" placeholder="Password" required>
+            </div>
+
+            <div class="form-group">
+              <label for="inputConfirmPassword">Confirm password</label>
+              <input type="password" class="form-control" id="inputConfirmPassword" placeholder="Confirm password" required>
+            </div>
+
+            <div class="form-group">
+              <label for="inputPhone1">Phone number 1</label>
+              <input type="tel" class="form-control" id="inputPhone1" placeholder="01xxxxxxxxx" pattern="01[0-9]{9}">
+            </div>
+
+            <div class="form-group">
+              <label for="inputPhone2">Phone number 2</label>
+              <input type="tel" class="form-control" id="inputPhone2" placeholder="01xxxxxxxxx" pattern="01[0-9]{9}">
+            </div>
+
+            <div class="form-group">
+              <label for="inputBDate">Birth date</label>
+              <input type="date" class="form-control" id="inputBDate" min="1900-01-01" max="2017-01-01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="inputAboutMe">About me</label>
+                <textarea class="form-control" id="inputAboutMe" rows="4"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="inputProfilePicture">Profile picture</label>
+                <input type="file" class="form-control-file" id="inputProfilePicture">
+            </div>
+
+            <div class="form-group">
+                <label for="maleRadio">Gender</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="maleRadio" value="option1" required>
+                    <label class="form-check-label" for="maleRadio">male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="femaleRadio" value="option2">
+                    <label class="form-check-label" for="femaleRadio">female</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Marital status</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="maritalStatus" id="singleRadio" value="option1">
+                    <label class="form-check-label" for="singleRadio">single</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="maritalStatus" id="engagedRadio" value="option2">
+                    <label class="form-check-label" for="engagedRadio">engaged</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="maritalStatus" id="marriedRadio" value="option3">
+                    <label class="form-check-label" for="marriedRadio">Married</label>
+                </div>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Sign up</button>
+        </form>
+
+    </div>
+
+</body>
+</html>
