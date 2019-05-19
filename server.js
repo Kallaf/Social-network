@@ -1,6 +1,7 @@
 var mysql = require('mysql');
 var express = require('express');
 var session = require('express-session');
+var exphbs = require('express-handlebars')
 var bodyParser = require('body-parser');
 var path = require('path');
 var bcrypt = require('bcrypt-nodejs')
@@ -12,7 +13,7 @@ var connection = mysql.createConnection({
 	database : 'social_network'
 });
 
-var app = express();
+const app = express();
 
 app.use(session({
 	secret: 'keyboard cat',
@@ -21,19 +22,27 @@ app.use(session({
 }));
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
+app.engine('.hbs',exphbs({
+	extname: '.hbs',
+	defaultLayout:'main'
+}))
+
+app.set('view engine','.hbs')
+
 
 app.get('/', function(request, response) {
 	if (request.session.loggedin) {
-		response.send('Welcome back, ' + request.session.username + '!');
-	} else {
-		response.redirect('/register.html');
+		response.render('index',{
+			name: request.session.username
+		});
+		} else {
+		response.render('register');
 	}
-	response.end();
 });
 
-app.get('/register.html', function(request, response) {
-	response.sendFile(path.join(__dirname+'/register.html'));
-});
+// app.get('/register.html', function(request, response) {
+// 	response.sendFile(path.join(__dirname+'/register.html'));
+// });
 
 app.get('/css/bootstrap.min.css', function(request, response) {
 	response.sendFile(path.join(__dirname+'/css/bootstrap.min.css'));
@@ -48,7 +57,7 @@ app.get('/jquery-3.3.1.min.js', function(request, response) {
 });
 
 
-app.post('/register.html', function(request, response) {
+app.post('/register', function(request, response) {
 	var firstname = request.body.firstname;
 	var lastname = request.body.lastname;
 	var email = request.body.email;
@@ -100,9 +109,10 @@ app.post('/register.html', function(request, response) {
 	let stmt = 'INSERT INTO users('+columns+') VALUES('+values+');';
 	connection.query(stmt, function(error, results, fields) {
 		if (error) {
-			response.send('Email already exsists');
-			response.end();
-			return console.log(error);
+			response.render('register',{
+				error: 'Email already exsists login instead'
+			});
+			console.log(error)
   		}
 		else {
 			request.session.loggedin = true;
@@ -110,9 +120,10 @@ app.post('/register.html', function(request, response) {
 				request.session.username = nickname;
 			else
 				request.session.username = firstname+' '+lastname;
-			response.redirect('/');
+			response.render('index',{
+			name: request.session.username
+			});
 		}			
-		response.end();
 	});
 });
 
