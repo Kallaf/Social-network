@@ -40,6 +40,16 @@ app.get('/', function(request, response) {
 	}
 });
 
+
+app.get('/login', function(request, response) {
+		response.render('login');
+});
+
+
+app.get('/register', function(request, response) {
+		response.render('register');
+});
+
 app.post('/register', function(request, response) {
 	var firstname = request.body.firstname;
 	var lastname = request.body.lastname;
@@ -105,6 +115,31 @@ app.post('/register', function(request, response) {
 				request.session.username = firstname+' '+lastname;
 			response.render('index',{
 			name: request.session.username
+			});
+		}			
+	});
+});
+
+
+app.post('/login', function(request, response) {
+	var email = request.body.email;
+	var password = request.body.password;
+	
+	//password = bcrypt.hashSync(password,null,null);
+
+	connection.query('SELECT first_name,last_name,nickname FROM users WHERE email = ? AND password = ?', [email, password], function(error, results, fields) {
+		if (results.length > 0) {
+			request.session.loggedin = true;
+			if(results[0].nickname)
+				request.session.username = results[0].nickname;
+			else
+				request.session.username = results[0].first_name+' '+results[0].last_name;
+			response.render('index',{
+			name: request.session.username
+			});
+		} else {
+			response.render('login',{
+				error: 'Incorrect email and/or Password!'
 			});
 		}			
 	});
