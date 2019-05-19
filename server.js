@@ -40,23 +40,6 @@ app.get('/', function(request, response) {
 	}
 });
 
-// app.get('/register.html', function(request, response) {
-// 	response.sendFile(path.join(__dirname+'/register.html'));
-// });
-
-app.get('/css/bootstrap.min.css', function(request, response) {
-	response.sendFile(path.join(__dirname+'/css/bootstrap.min.css'));
-});
-
-app.get('/js/bootstrap.min.js', function(request, response) {
-	response.sendFile(path.join(__dirname+'/js/bootstrap.min.js'));
-});
-
-app.get('/jquery-3.3.1.min.js', function(request, response) {
-	response.sendFile(path.join(__dirname+'/jquery-3.3.1.min.js'));
-});
-
-
 app.post('/register', function(request, response) {
 	var firstname = request.body.firstname;
 	var lastname = request.body.lastname;
