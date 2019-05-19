@@ -10,77 +10,77 @@
 
     <div class="container-fluid">
 
-        <form>
+        <form action="register.html" method="POST">
 
             <div class="form-row">
                 <div class="form-group col-md-4">
-                  <label for="inputFirstName">First name</label>
-                  <input type="text" class="form-control" id="inputFirstName" placeholder="First name" required>
+                  <label for="firstname">First name</label>
+                  <input type="text" class="form-control" name="firstname" id="firstname" placeholder="First name" required>
                 </div>
                 <div class="form-group col-md-4">
-                  <label for="inputLastName">Last name</label>
-                  <input type="text" class="form-control" id="inputLastName" placeholder="Last name" required>
+                  <label for="lastname">Last name</label>
+                  <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Last name" required>
                 </div>
                 <div class="form-group col-md-4">
-                  <label for="inputNickName">Nickname</label>
-                  <input type="text" class="form-control" id="inputNickName" placeholder="Nickname">
+                  <label for="nickname">Nickname</label>
+                  <input type="text" class="form-control" name="nickname" id="nickname" placeholder="Nickname">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="inputEmail4">Email</label>
-                  <input type="email" class="form-control" id="inputEmail4" placeholder="Email" required>
+                  <label for="email">Email</label>
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="inputHometown">Hometown</label>
-                    <input type="text" class="form-control" id="inputHometown" placeholder="1234 Main St">
+                    <label for="hometown">Hometown</label>
+                    <input type="text" class="form-control" name="hometown" id="hometown" placeholder="1234 Main St">
                 </div>
             </div>
 
             <div class="form-group">
-              <label for="inputPassword">Password</label>
-              <input type="password" class="form-control" id="inputPassword" placeholder="Password" required>
+              <label for="password">Password</label>
+              <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
             </div>
 
             <div class="form-group">
-              <label for="inputConfirmPassword">Confirm password</label>
-              <input type="password" class="form-control" id="inputConfirmPassword" placeholder="Confirm password" required>
+              <label for="confirmPassword">Confirm password</label>
+              <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm password" required>
             </div>
 
             <div class="form-group">
-              <label for="inputPhone1">Phone number 1</label>
-              <input type="tel" class="form-control" id="inputPhone1" placeholder="01xxxxxxxxx" pattern="01[0-9]{9}">
+              <label for="phone1">Phone number 1</label>
+              <input type="tel" class="form-control" name="phone1" id="phone1" placeholder="01xxxxxxxxx" pattern="01[0-9]{9}">
             </div>
 
             <div class="form-group">
-              <label for="inputPhone2">Phone number 2</label>
-              <input type="tel" class="form-control" id="inputPhone2" placeholder="01xxxxxxxxx" pattern="01[0-9]{9}">
+              <label for="phone2">Phone number 2</label>
+              <input type="tel" class="form-control" name="phone2" id="phone2" placeholder="01xxxxxxxxx" pattern="01[0-9]{9}">
             </div>
 
             <div class="form-group">
-              <label for="inputBDate">Birth date</label>
-              <input type="date" class="form-control" id="inputBDate" min="1900-01-01" max="2017-01-01" required>
+              <label for="birthdate">Birthdate</label>
+              <input type="date" class="form-control" name="birthdate" id="birthdate" min="1900-01-01" max="2016-12-31" required>
             </div>
 
             <div class="form-group">
-                <label for="inputAboutMe">About me</label>
-                <textarea class="form-control" id="inputAboutMe" rows="4"></textarea>
+                <label for="aboutme">About me</label>
+                <textarea class="form-control" name="aboutme" id="aboutme" rows="4"></textarea>
             </div>
 
             <div class="form-group">
-                <label for="inputProfilePicture">Profile picture</label>
-                <input type="file" class="form-control-file" id="inputProfilePicture">
+                <label for="profilePicture">Profile picture</label>
+                <input type="file" class="form-control-file" name="profilePicture" id="profilePicture">
             </div>
 
             <div class="form-group">
                 <label for="maleRadio">Gender</label>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="gender" id="maleRadio" value="option1" required>
+                    <input class="form-check-input" type="radio" name="gender" id="maleRadio" value="M" required>
                     <label class="form-check-label" for="maleRadio">male</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="gender" id="femaleRadio" value="option2">
+                    <input class="form-check-input" type="radio" name="gender" id="femaleRadio" value="F">
                     <label class="form-check-label" for="femaleRadio">female</label>
                 </div>
             </div>
@@ -88,19 +88,18 @@
             <div class="form-group">
                 <label>Marital status</label>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="maritalStatus" id="singleRadio" value="option1">
+                    <input class="form-check-input" type="radio" name="maritalStatus" id="singleRadio" value="Single">
                     <label class="form-check-label" for="singleRadio">single</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="maritalStatus" id="engagedRadio" value="option2">
+                    <input class="form-check-input" type="radio" name="maritalStatus" id="engagedRadio" value="Engaged">
                     <label class="form-check-label" for="engagedRadio">engaged</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="maritalStatus" id="marriedRadio" value="option3">
+                    <input class="form-check-input" type="radio" name="maritalStatus" id="marriedRadio" value="Married">
                     <label class="form-check-label" for="marriedRadio">Married</label>
                 </div>
             </div>
-
 
             <button type="submit" class="btn btn-primary">Sign up</button>
         </form>
@@ -109,3 +108,21 @@
 
 </body>
 </html>
+
+
+<script type="text/javascript">
+  
+  var password = document.getElementById("password"),confirmPassword = document.getElementById("confirmPassword");
+
+  function validatePassword(){
+    if(password.value != confirmPassword.value) {
+      confirmPassword.setCustomValidity("Not matching");
+    } else {
+      confirmPassword.setCustomValidity('');
+      }
+  }
+
+  password.onchange = validatePassword;
+  confirmPassword.onkeyup = validatePassword;
+
+</script>

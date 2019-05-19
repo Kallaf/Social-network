@@ -6,19 +6,15 @@ CREATE TABLE users (
 	nickname varchar(255) ,
 	password varchar(255) not null,
 	user_ID int AUTO_INCREMENT primary key,
-	email varchar(255) not null,
+	email varchar(255) not null unique,
 	gender ENUM('M', 'F') not null,
 	birthdate date not null,
 	profile_picture LONGBLOB,
 	hometown varchar(255),
 	Marital_status ENUM('Single', 'Engaged' , 'Married'),
-	About_me varchar(255) 
-);
-
-CREATE TABLE phones(
-	num varchar(20) primary key,
-	user_ID int not null ,
-    FOREIGN KEY (user_ID) REFERENCES users(user_ID)
+	About_me varchar(511),
+	phone1 varchar(20),
+	phone2 varchar(20)
 );
 
 CREATE TABLE friends(
