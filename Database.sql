@@ -9,7 +9,7 @@ CREATE TABLE users (
 	email varchar(255) not null unique,
 	gender ENUM('M', 'F') not null,
 	birthdate date not null,
-	profile_picture LONGBLOB,
+	profile_picture varchar(255),
 	hometown varchar(255),
 	Marital_status ENUM('Single', 'Engaged' , 'Married'),
 	About_me varchar(511),

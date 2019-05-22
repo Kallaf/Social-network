@@ -2,6 +2,7 @@
   <h1 class="row-title" > People you may know </h1>
   {{#each notFriends}}
       <div class="row">
+        <img height ="50" width="50" src="{{imgURL}}">
         <form action="notFriendPage" method="post" id="{{otherId}}">
           <input type="hidden" id="otherId" name="otherId" value="{{otherId}}">
           <a href="#" onclick="document.getElementById('{{otherId}}').submit();"><h4">{{otherName}}</h4></a>

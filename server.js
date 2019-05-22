@@ -7,8 +7,7 @@ var path = require('path');
 var bcrypt = require('bcrypt-nodejs')
 var fs = require('fs');
 var multer = require('multer');
- 
-var upload = multer({dest: 'uploads/'});
+var fileUpload = require("express-fileupload");
 
 var connection = mysql.createConnection({
 	host     : 'localhost',
@@ -30,7 +29,7 @@ app.engine('.hbs',exphbs({
 	extname: '.hbs',
 	defaultLayout:'main'
 }))
-
+app.use(express.static('images'));
 app.set('view engine','.hbs')
 
 
@@ -44,12 +43,8 @@ app.get('/', function(request, response) {
 	}
 });
 
-app.get('/maleDefault.png', function(request, response) {
-	response.sendFile(path.join(__dirname + '/maleDefault.png'));
-});
-
-app.get('/femaleDefault.jpg', function(request, response) {
-	response.sendFile(path.join(__dirname + '/femaleDefault.jpg'));
+app.get('/images/:imageName', function(request, response) {
+	response.sendFile(path.join(__dirname + '/images/'+request.params.imageName));
 });
 
 app.get('/login', function(request, response) {
@@ -64,14 +59,9 @@ app.get('/register', function(request, response) {
 
 function openIndex(request,response)
 {
-	var imgURL;
-	if(request.session.gender == 'M')
-		imgURL = "maleDefault.png";
-	else
-		imgURL = "femaleDefault.jpg"
 	response.render('index',{
 			name: request.session.username,
-			imgURL: imgURL
+			imgURL: request.session.profilePicture
 	});
 }
 
@@ -88,7 +78,8 @@ app.get('/notFriends', function(request, response) {
 					otherName = results[i].first_name+" "+results[i].last_name;
 				var other = {
 		    		otherName: otherName,
-		    		otherId: results[i].user_ID
+		    		otherId: results[i].user_ID,
+		    		imgURL: results[i].profile_picture
 		  		}
 		  		notFriends.push(other);
 			}			
@@ -107,7 +98,8 @@ app.get('/friends', function(request, response) {
 					otherName = results[i].first_name+" "+results[i].last_name;
 				var other = {
 		    		otherName: otherName,
-		    		otherId: results[i].user_ID
+		    		otherId: results[i].user_ID,
+		    		imgURL: results[i].profile_picture
 		  		}
 		  		friends.push(other)	
 			}
@@ -126,7 +118,8 @@ app.get('/yourRequest', function(request, response) {
 						otherName = results[i].first_name+" "+results[i].last_name;
 					var other = {
 			    		otherName: otherName,
-			    		otherId: results[i].user_ID
+			    		otherId: results[i].user_ID,
+			    		imgURL: results[i].profile_picture
 			  		}
 			  		myrequests.push(other)	
 				}
@@ -145,7 +138,8 @@ app.get('/friendRequests', function(request, response) {
 					otherName = results[i].first_name+" "+results[i].last_name;
 				var other = {
 		    		otherName: otherName,
-		    		otherId: results[i].user_ID
+		    		otherId: results[i].user_ID,
+		    		imgURL: results[i].profile_picture
 		  		}
 		  		peopleRequests.push(other)
 			}
@@ -153,8 +147,7 @@ app.get('/friendRequests', function(request, response) {
 		response.render('friendRequests',{peopleRequests: peopleRequests});
 });
 
-app.post('/register', upload.single('profilePicture'), function(request, response) {
-	console.log(request.file)
+app.post('/register', fileUpload(), function(request, response) {
 	var firstname = request.body.firstname;
 	var lastname = request.body.lastname;
 	var email = request.body.email;
@@ -203,14 +196,21 @@ app.post('/register', upload.single('profilePicture'), function(request, respons
 		values += ",'"+maritalStatus+"'";
 	}
 
-	// var profilePicture = fs.readFileSync(request.body);
- // 	profilePicture = profilePicture.toString('base64');
-	// if(profilePicture)
-	// {
-		
-	// 	columns += ",profile_picture";
-	// 	values += ",LOAD_FILE('"+profilePicture+"')";
-	// }
+	var profilePicture;
+	if (request.files === null || request.files === undefined)
+	{
+		if(gender == 'M')
+			profilePicture = "maleDefault.png";
+		else
+			profilePicture = "femaleDefault.jpg";
+	}else
+	{
+		profilePicture = request.files.profilePicture.name;
+		request.files.profilePicture.mv(__dirname + '/images/' + profilePicture);
+	}
+
+	columns += ",profile_picture";
+	values += ",'/images/"+profilePicture+"'";
 
 	let stmt = 'INSERT INTO users('+columns+') VALUES('+values+');';
 	connection.query(stmt, function(error, results, fields) {
@@ -229,6 +229,7 @@ app.post('/register', upload.single('profilePicture'), function(request, respons
 
 			connection.query('SELECT * FROM users WHERE email = ?', [email], function(error, results, fields) {
 				request.session.userID = results[0].user_ID;
+				request.session.profilePicture = results[0].profile_picture;
 				request.session.gender = results[0].gender;
 			openIndex(request,response);
 		});
@@ -258,6 +259,7 @@ app.post('/login', function(request, response) {
 				else
 					request.session.username = results[0].first_name+' '+results[0].last_name;
 				request.session.userID = results[0].user_ID;
+				request.session.profilePicture = results[0].profile_picture;
 				request.session.gender = results[0].gender;
 				openIndex(request,response);
 			}
@@ -293,7 +295,7 @@ app.post('/acceptRequest', function(request, response) {
 	let stmt = 'INSERT INTO friends(user_id1,user_id2) VALUES('+values+');';
 	
 	connection.query(stmt, function(error, results, fields) {
-		console.log(stmt);
+		//do nothing
 	});
 	stmt = 'DELETE FROM requests WHERE user_id1 = '+otherId+' and user_id2 = '+request.session.userID+';'
 	connection.query(stmt, function(error, results, fields) {
@@ -312,12 +314,6 @@ app.post('/cancelRequest', function(request, response) {
 app.post('/notFriendPage', function(request, response) {
 		var otherId = request.body.otherId;
 		connection.query('SELECT * from users where user_ID = ?',[otherId],function(error, results, fields) {
-				var imgURL;
-				if(results[0].gender == 'M')
-					imgURL = "maleDefault.png";
-				else
-					imgURL = "femaleDefault.jpg";
-
 				response.render('notFriendPage',{
 	    		firstname: results[0].first_name,
 				lastname: results[0].last_name,
@@ -327,7 +323,7 @@ app.post('/notFriendPage', function(request, response) {
 				phone2: results[0].phone2,
 				hometown: results[0].hometown,
 				maritalStatus: results[0].Marital_status,
-				imgURL: imgURL
+				imgURL: results[0].profile_picture
 	  		});
 		});
 });
@@ -335,12 +331,6 @@ app.post('/notFriendPage', function(request, response) {
 app.post('/friendPage', function(request, response) {
 		var otherId = request.body.otherId;
 		connection.query('SELECT * from users where user_ID = ?',[otherId],function(error, results, fields) {
-				var imgURL;
-				if(results[0].gender == 'M')
-					imgURL = "maleDefault.png";
-				else
-					imgURL = "femaleDefault.jpg";
-
 				response.render('friendPage',{
 	    		firstname: results[0].first_name,
 				lastname: results[0].last_name,
@@ -352,10 +342,38 @@ app.post('/friendPage', function(request, response) {
 				birthdate: results[0].birthdate,
 				aboutme: results[0].About_me,
 				maritalStatus: results[0].Marital_status,
-
-				imgURL: imgURL
+				imgURL: results[0].profile_picture
 	  		});
 		});
+});
+
+app.post('/changeImage', fileUpload(), function(request, response) {
+	if (request.files != null && request.files != undefined)
+	{
+		var profilePicture = request.files.profilePicture.name;
+		request.files.profilePicture.mv(__dirname + '/images/' + profilePicture);
+
+		stmt = "UPDATE users SET profile_picture = '/images/"+profilePicture+"' WHERE user_ID = "+request.session.userID+";";
+		connection.query(stmt, function(error, results, fields) {
+			request.session.profilePicture = "/images/"+profilePicture;
+			openIndex(request,response);	
+		});
+	}
+
+});
+
+app.post('/removeImage', fileUpload(), function(request, response) {
+	var profilePicture = "femaleDefault.jpg";
+	if(request.session.gender == 'M')
+		profilePicture = "maleDefault.png";
+
+	stmt = "UPDATE users SET profile_picture = '/images/"+profilePicture+"' WHERE user_ID = "+request.session.userID+";";
+
+	connection.query(stmt, function(error, results, fields) {
+		request.session.profilePicture = "/images/"+profilePicture;
+		openIndex(request,response);	
+	});
+
 });
 
 console.log("listening on port: 3000");

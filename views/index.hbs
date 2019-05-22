@@ -1,5 +1,15 @@
 <img height ="100" width="100" src="{{imgURL}}">
-<h3 style="display:inline;">{{name}}</h3>
+
+<form action="changeImage" method="post" encType="multipart/form-data">
+	<div class="form-group">
+		<label for="profilePicture">{{name}}</label>
+	    <input type="file" class="form-control-file" name="profilePicture" id="profilePicture" accept="image/*">
+	    <button type="submit">change image</button>
+	</div>
+</form>
+<form action="removeImage" method="post">
+  <button type="submit" style="display:inline;">remove image</button>
+</form>
 
 <ul class="people_list">
 <li><a href="notFriends">People you may know</a></li>
