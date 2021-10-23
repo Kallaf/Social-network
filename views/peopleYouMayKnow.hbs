@@ -1,22 +1,20 @@
 <div class="container">
-  <h1 class="row-title" > Your requests </h1>
-
-  {{#each myrequests}}
+  <h1 class="row-title" > People you may know </h1>
+  {{#each peopleYouMayKnow}}
       <div class="row">
-      	<img height ="50" width="50" src="{{imgURL}}">
-        <form action="notFriendPage" method="post" id="{{otherId}}">
+        <img height ="50" width="50" src="{{imgURL}}">
+        <form action="peopleYouMayKnowPage" method="post" id="{{otherId}}">
           <input type="hidden" id="otherId" name="otherId" value="{{otherId}}">
           <a href="#" onclick="document.getElementById('{{otherId}}').submit();"><h4">{{otherName}}</h4></a>
         </form>
-        <form action="cancelRequest" method="post">
+        <form action="addFriend" method="post">
           <input type="hidden" id="otherId" name="otherId" value="{{otherId}}">
-          <button type="submit" class="btn">cancel</button>
+          <button type="submit" class="btn">Add Friend</button>
         </form>
       </div>
   {{/each}}
-
-
 </div>
+
 
 <style type="text/css">
   
@@ -52,7 +50,7 @@
   background: #014b7c;
   border: none;
   border-radius: 5px;
-  margin-left: 85%;
+  margin-left: 82%;
 }
   
 </style>

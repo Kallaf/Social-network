@@ -4,9 +4,11 @@
   {{#each peopleRequests}}
       <div class="row">
         <img height ="50" width="50" src="{{imgURL}}">
-        <form action="notFriendPage" method="post" id="{{otherId}}">
+        <form action="peopleYouMayKnowPage" method="post" id="{{otherId}}">
           <input type="hidden" id="otherId" name="otherId" value="{{otherId}}">
-          <a href="#" onclick="document.getElementById('{{otherId}}').submit();"><h4">{{otherName}}</h4></a>
+          <a href="#" onclick="document.getElementById('{{otherId}}').submit();">
+            <h4>{{otherName}}</h4>
+          </a>
         </form>
         <form action="acceptRequest" method="post">
           <input type="hidden" id="otherId" name="otherId" value="{{otherId}}">
