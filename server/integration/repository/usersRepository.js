@@ -1,13 +1,13 @@
-const connection = require(__dirname + "/connection");
+const connection = require(__dirname + "/database/connection");
 
 exports.fetchUser = (userId) => {
-    return new Promise(resolve => {
-        let sql = `SELECT * from users where user_ID = ?`;
+    return new Promise((resolve, reject) => {
+        let sql = `SELECT * from users where userID = ?`;
         connection.query(sql, [userId],
             function(err, results) {
-                if (err) console.log(err);
+                if (err) reject(err);
                 else if (!results || !results.length)
-                    console.log('user not found');
+                    reject('user not found');
                 else resolve(results[0]);
             }
         );
@@ -15,28 +15,30 @@ exports.fetchUser = (userId) => {
 };
 
 
-exports.fetchUserByEmail = (email) => {
-    return new Promise(resolve => {
+const fetchUserByEmail = (email) => {
+    return new Promise((resolve, reject) => {
         let sql = `SELECT * FROM users WHERE email = ?`;
         connection.query(sql, [email],
             function(err, results) {
-                if (err) console.log(err);
-                else if (!results || !results.length)
-                    console.log('user not found');
+                if (err) reject(err);
+                else if (!results || !results.length) reject('User not found');
                 else resolve(results[0]);
             }
         );
     });
 };
+
+exports.fetchUserByEmail = fetchUserByEmail;
 
 exports.addUser = (user) => {
     return new Promise((resolve, reject) => {
         var queryParams = createParams(user);
-        let sql = 'INSERT INTO users(' + queryParams.columns + ') VALUES(' + queryParams.values + ');';
+        let sql = 'INSERT INTO users(' + queryParams.columns +
+            ') VALUES(' + queryParams.values + ');';
         connection.query(sql,
             function(err, results) {
-                if (err) reject(err);
-                else resolve(results);
+                if (err) reject(err.sqlMessage);
+                else resolve(fetchUserByEmail(user.email));
             }
         );
     });
@@ -44,7 +46,7 @@ exports.addUser = (user) => {
 
 exports.updateProfilePicture = (userId, imageURL) => {
     return new Promise((resolve, reject) => {
-        let sql = `UPDATE users SET profile_picture = ? WHERE user_ID = ?;`;
+        let sql = `UPDATE users SET profilePicture = ? WHERE userID = ?;`;
         connection.query(sql, [imageURL, userId],
             function(err, results) {
                 if (err) reject(err);
@@ -55,7 +57,7 @@ exports.updateProfilePicture = (userId, imageURL) => {
 };
 
 const createParams = (user) => {
-    var columns = 'first_name, last_name, email, password, birthdate, gender';
+    var columns = 'firstName, lastName, email, password, birthdate, gender';
     var values = "'" + user.firstname + "','" +
         user.lastname + "','" +
         user.email + "','" +
@@ -65,7 +67,7 @@ const createParams = (user) => {
 
     if (user.nickname) {
         columns += ",nickname";
-        values += ",'" + nickname + "'";
+        values += ",'" + user.nickname + "'";
     }
     if (user.phone1) {
         columns += ",phone1";
@@ -75,16 +77,16 @@ const createParams = (user) => {
         columns += ",phone2";
         values += ",'" + user.phone2 + "'";
     }
-    if (user.aboutme) {
-        columns += ",About_me";
-        values += ",'" + user.aboutme + "'";
+    if (user.about) {
+        columns += ",about";
+        values += ",'" + user.about + "'";
     }
     if (user.hometown) {
         columns += ",hometown";
         values += ",'" + user.hometown + "'";
     }
     if (user.maritalStatus) {
-        columns += ",Marital_status";
+        columns += ",maritalStatus";
         values += ",'" + user.maritalStatus + "'";
     }
     return {

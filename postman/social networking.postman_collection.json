@@ -1,0 +1,1183 @@
+{
+	"info": {
+		"_postman_id": "2dce064e-ff9e-4d38-9a90-061fb008d7ff",
+		"name": "social networking",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create user 1",
+			"item": [
+				{
+					"name": "sign up",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"firstName1\", pm.variables.replaceIn(\"{{$randomFirstName}}\"));\r",
+									"pm.collectionVariables.set(\"lastName1\", pm.variables.replaceIn(\"{{$randomLastName}}\"));\r",
+									"pm.collectionVariables.set(\"nickname1\", pm.variables.replaceIn(\"{{$randomUserName}}\"));\r",
+									"pm.collectionVariables.set(\"password1\", pm.variables.replaceIn(\"{{$randomPassword}}\"));\r",
+									"pm.collectionVariables.set(\"birthdate1\", \"1997-01-26\");\r",
+									"pm.collectionVariables.set(\"hometown1\", pm.variables.replaceIn(\"{{$randomCity}}\"));\r",
+									"pm.collectionVariables.set(\"email1\", pm.variables.replaceIn(\"{{$randomEmail}}\"));\r",
+									"pm.collectionVariables.set(\"email1\", pm.variables.replaceIn(\"{{$randomEmail}}\"));\r",
+									"pm.collectionVariables.set(\"phone1_1\", pm.variables.replaceIn(\"{{$randomPhoneNumber}}\"));\r",
+									"pm.collectionVariables.set(\"phone1_2\", pm.variables.replaceIn(\"{{$randomPhoneNumber}}\"));\r",
+									"pm.collectionVariables.set(\"about1\", pm.variables.replaceIn(\"{{$randomLoremSentence}}\"));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response has a token\", function () {\r",
+									"    pm.expect(jsonData).to.have.property('token');\r",
+									"    if (jsonData.token) {        \r",
+									"        pm.collectionVariables.set(\"token1\", jsonData.token);\r",
+									"        pm.collectionVariables.set(\"userID1\", jsonData.userID);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\": \"{{firstName1}}\", \r\n    \"lastname\": \"{{lastName1}}\", \r\n    \"nickname\": \"{{nickname1}}\", \r\n    \"password\": \"{{password1}}\",\r\n    \"email\": \"{{email1}}\", \r\n    \"gender\": \"M\", \r\n    \"birthdate\": \"{{birthdate1}}\", \r\n    \"hometown\": \"{{hometown1}}\", \r\n    \"maritalStatus\": \"Single\", \r\n    \"about\": \"{{about1}}\", \r\n    \"phone1\": \"{{phone1_1}}\", \r\n    \"phone2\": \"{{phone1_2}}\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{be-host}}/token/register",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"token",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response has a token\", function () {\r",
+									"    pm.expect(jsonData).to.have.property('token');\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"token1\", jsonData.token);\r",
+									"pm.collectionVariables.set(\"userID1\", jsonData.userID);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{email1}}\",  \r\n    \"password\": \"{{password1}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{be-host}}/token/login",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"token",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{be-host}}/users/{{userID1}}",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"users",
+								"{{userID1}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "create user 2",
+			"item": [
+				{
+					"name": "sign up",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"firstName2\", pm.variables.replaceIn(\"{{$randomFirstName}}\"));\r",
+									"pm.collectionVariables.set(\"lastName2\", pm.variables.replaceIn(\"{{$randomLastName}}\"));\r",
+									"pm.collectionVariables.set(\"nickname2\", pm.variables.replaceIn(\"{{$randomUserName}}\"));\r",
+									"pm.collectionVariables.set(\"password2\", pm.variables.replaceIn(\"{{$randomPassword}}\"));\r",
+									"pm.collectionVariables.set(\"birthdate2\", \"1997-02-26\");\r",
+									"pm.collectionVariables.set(\"hometown2\", pm.variables.replaceIn(\"{{$randomCity}}\"));\r",
+									"pm.collectionVariables.set(\"email2\", pm.variables.replaceIn(\"{{$randomEmail}}\"));\r",
+									"pm.collectionVariables.set(\"email2\", pm.variables.replaceIn(\"{{$randomEmail}}\"));\r",
+									"pm.collectionVariables.set(\"phone2_1\", pm.variables.replaceIn(\"{{$randomPhoneNumber}}\"));\r",
+									"pm.collectionVariables.set(\"phone2_2\", pm.variables.replaceIn(\"{{$randomPhoneNumber}}\"));\r",
+									"pm.collectionVariables.set(\"about2\", pm.variables.replaceIn(\"{{$randomLoremSentence}}\"));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response has a token\", function () {\r",
+									"    pm.expect(jsonData).to.have.property('token');\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"token2\", jsonData.token);\r",
+									"pm.collectionVariables.set(\"userID2\", jsonData.userID);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\": \"{{firstName2}}\", \r\n    \"lastname\": \"{{lastName2}}\", \r\n    \"nickname\": \"{{nickname2}}\", \r\n    \"password\": \"{{password2}}\",\r\n    \"email\": \"{{email2}}\", \r\n    \"gender\": \"M\", \r\n    \"birthdate\": \"{{birthdate2}}\", \r\n    \"hometown\": \"{{hometown2}}\", \r\n    \"maritalStatus\": \"Single\", \r\n    \"about\": \"{{about2}}\", \r\n    \"phone1\": \"{{phone1_2}}\", \r\n    \"phone2\": \"{{phone2_2}}\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{be-host}}/token/register",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"token",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response has a token\", function () {\r",
+									"    pm.expect(jsonData).to.have.property('token');\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"token2\", jsonData.token);\r",
+									"pm.collectionVariables.set(\"userID2\", jsonData.userID);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{email2}}\",  \r\n    \"password\": \"{{password2}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{be-host}}/token/login",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"token",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{be-host}}/users/{{userID2}}",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"users",
+								"{{userID2}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "get people user1 may know",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{token1}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{be-host}}/users/others",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"users",
+								"others"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get people user2 may know",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{token2}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{be-host}}/users/others",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"users",
+								"others"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "requests",
+			"item": [
+				{
+					"name": "send request 1",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response has a requestID\", function () {\r",
+									"    pm.expect(jsonData).to.have.property('requestID');\r",
+									"    if (jsonData.requestID) {\r",
+									"        pm.collectionVariables.set(\"requestID\", jsonData.requestID);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-access-token",
+								"type": "text",
+								"value": "{{token1}}"
+							}
+						],
+						"url": {
+							"raw": "{{be-host}}/requests/{{userID2}}",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"requests",
+								"{{userID2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user1 sent requests",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"type": "text",
+								"value": "{{token1}}"
+							}
+						],
+						"url": {
+							"raw": "{{be-host}}/requests/sent",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"requests",
+								"sent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user2 friend requests",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"type": "text",
+								"value": "{{token2}}"
+							}
+						],
+						"url": {
+							"raw": "{{be-host}}/requests",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancel request",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-access-token",
+								"type": "text",
+								"value": "{{token1}}"
+							}
+						],
+						"url": {
+							"raw": "{{be-host}}/requests/cancel/{{requestID}}",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"requests",
+								"cancel",
+								"{{requestID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "send request 2",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response has a requestID\", function () {\r",
+									"    pm.expect(jsonData).to.have.property('requestID');\r",
+									"    if (jsonData.requestID) {\r",
+									"        pm.collectionVariables.set(\"requestID\", jsonData.requestID);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-access-token",
+								"type": "text",
+								"value": "{{token1}}"
+							}
+						],
+						"url": {
+							"raw": "{{be-host}}/requests/{{userID2}}",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"requests",
+								"{{userID2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reject request",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-access-token",
+								"type": "text",
+								"value": "{{token2}}"
+							}
+						],
+						"url": {
+							"raw": "{{be-host}}/requests/reject/{{requestID}}",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"requests",
+								"reject",
+								"{{requestID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "send request 3",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response has a requestID\", function () {\r",
+									"    pm.expect(jsonData).to.have.property('requestID');\r",
+									"    if (jsonData.requestID) {\r",
+									"        pm.collectionVariables.set(\"requestID\", jsonData.requestID);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-access-token",
+								"type": "text",
+								"value": "{{token1}}"
+							}
+						],
+						"url": {
+							"raw": "{{be-host}}/requests/{{userID2}}",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"requests",
+								"{{userID2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "accept request",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response has a friendshipID\", function () {\r",
+									"    pm.expect(jsonData).to.have.property('friendshipID');\r",
+									"    if (jsonData.friendshipID) {\r",
+									"        pm.collectionVariables.set(\"friendshipID\", jsonData.friendshipID);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-access-token",
+								"type": "text",
+								"value": "{{token2}}"
+							}
+						],
+						"url": {
+							"raw": "{{be-host}}/requests/accept/{{requestID}}",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"requests",
+								"accept",
+								"{{requestID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get friends",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{be-host}}/friends",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"friends"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "friends",
+			"item": [
+				{
+					"name": "get user1 friends",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"type": "text",
+								"value": "{{token1}}"
+							}
+						],
+						"url": {
+							"raw": "{{be-host}}/friends",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"friends"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user2 friends",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"type": "text",
+								"value": "{{token2}}"
+							}
+						],
+						"url": {
+							"raw": "{{be-host}}/friends",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"friends"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "profile pictures",
+			"item": [
+				{
+					"name": "upload user1 profile picture",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response has a imageURL\", function () {\r",
+									"    pm.expect(jsonData).to.have.property('imageURL');\r",
+									"    if (jsonData.imageURL) {\r",
+									"        pm.collectionVariables.set(\"profilePicture1URL\", jsonData.imageURL);\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-access-token",
+								"type": "text",
+								"value": "{{token1}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "profilePicture",
+									"type": "file",
+									"src": "/D:/Pictures/Khadega/74789642_2576927392394021_6078934687412125696_n.jpg"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{be-host}}/files",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get image by name",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"type": "text",
+								"value": "{{token1}}"
+							}
+						],
+						"url": {
+							"raw": "{{be-host}}/files/{{profilePicture1URL}}",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"files",
+								"{{profilePicture1URL}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user1 profile picture",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-access-token",
+								"type": "text",
+								"value": "{{token1}}"
+							}
+						],
+						"url": {
+							"raw": "{{be-host}}/files",
+							"host": [
+								"{{be-host}}"
+							],
+							"path": [
+								"files"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "token1",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "email1",
+			"value": ""
+		},
+		{
+			"key": "firstName1",
+			"value": ""
+		},
+		{
+			"key": "lastName1",
+			"value": ""
+		},
+		{
+			"key": "nickname1",
+			"value": ""
+		},
+		{
+			"key": "email2",
+			"value": ""
+		},
+		{
+			"key": "firstName2",
+			"value": ""
+		},
+		{
+			"key": "lastName2",
+			"value": ""
+		},
+		{
+			"key": "nickname2",
+			"value": ""
+		},
+		{
+			"key": "token2",
+			"value": ""
+		},
+		{
+			"key": "userID2",
+			"value": ""
+		},
+		{
+			"key": "userID1",
+			"value": ""
+		},
+		{
+			"key": "requestID",
+			"value": ""
+		},
+		{
+			"key": "friendshipID",
+			"value": ""
+		},
+		{
+			"key": "about1",
+			"value": ""
+		},
+		{
+			"key": "birthdate1",
+			"value": ""
+		},
+		{
+			"key": "hometown1",
+			"value": ""
+		},
+		{
+			"key": "password1",
+			"value": ""
+		},
+		{
+			"key": "phone1_1",
+			"value": ""
+		},
+		{
+			"key": "phone1_2",
+			"value": ""
+		},
+		{
+			"key": "about2",
+			"value": ""
+		},
+		{
+			"key": "birthdate2",
+			"value": ""
+		},
+		{
+			"key": "hometown2",
+			"value": ""
+		},
+		{
+			"key": "password2",
+			"value": ""
+		},
+		{
+			"key": "phone2_1",
+			"value": ""
+		},
+		{
+			"key": "phone2_2",
+			"value": ""
+		},
+		{
+			"key": "profilePicture1URL",
+			"value": ""
+		}
+	]
+}
